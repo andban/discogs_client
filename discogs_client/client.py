@@ -11,7 +11,7 @@ except ImportError:
 
 from discogs_client import models
 from discogs_client.exceptions import ConfigurationError, HTTPError, AuthorizationError
-from discogs_client.utils import update_qs
+from discogs_client.utils import update_qs, omit_none
 from discogs_client.fetchers import RequestsFetcher, OAuth2Fetcher, UserTokenRequestsFetcher
 
 
@@ -151,7 +151,7 @@ class Client(object):
             fields['q'] = ' '.join(unicode_query)
         return models.MixedPaginatedList(
             self,
-            update_qs(self._base_url + '/database/search', fields),
+            update_qs(self._base_url + '/database/search', omit_none(fields)),
             'results'
         )
 
